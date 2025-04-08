@@ -66,6 +66,9 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password);
 }
 
+// Method to generate access token for user authentication
+// Access tokens are short-lived and contain user's basic information
+// Used for regular API requests and expires quickly (1 day as per .env)
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
@@ -81,6 +84,9 @@ userSchema.methods.generateAccessToken = function(){
     )
 }
 
+// Method to generate refresh token for maintaining user session
+// Refresh tokens are long-lived and contain minimal user information
+// Used to obtain new access tokens when they expire (10 days as per .env)
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {
